@@ -5,39 +5,55 @@ out = java.lang.System.out;
 
 var SysUtility = {
 
-    authenticate : function authenticate(ldapAdServer,ldapSearchBase,username,password) {
-        var ldapService = new com.espressologic.lib.ldap.LDAPService(ldapAdServer,ldapSearchBase);
-        var result = ldapService.authenticate(username,password);
+    authenticate : function authenticate(username,password,serverName,port,baseDN,query) {
+        var ldapAuthService = new com.espressologic.ldap.LDAPAuthService(username,password,serverName,port,baseDN);
+        var result = ldapAuthService.executeQuery(query);
         return result;
     }
 };
 
-// load the class
-load("LDAPSecurityProvider.js");
+// 1. load the class
+load("LDAPAuthProvider.js");
 
-// configuration needed for testing
+// 2. configuration needed for testing
 var configSetup = {
-   ldapAdServer  : 'ldap://0.0.0.0:1389',
-   ldapSearchBase  : "dc=ad,dc=my-domain,dc=com" ,
-   ldapRoot : 'cn=root'
+   serverName  : 'servername',
+   port  : 389 ,
+  // query : 'SELECT Id,RDN,SN,CN FROM [User] where UserPrincipalName = %%username%% ORDER BY RDN LIMIT 20',
+   baseDN: 'OU=DevelopmentTesting,OU=ServiceAccounts,DC=company,DC=com',
+   keyLifetimeMinutes : 60
 };
 
-// this is how the server creates the security object
-var ldapClient = LDAPSecurityProviderCreate();
+// 3.this is how the server creates the security object
+var ldapClient = LDAPAuthProviderCreate();
 ldapClient.configure(configSetup);
 
 var payload = {
-    username: "David",
-    password: "Password$1"
+    username: "JDeBroker@company.com",
+    password: "Password1"
+
 };
 
-out.println("------------- testing ldap authenticate with good payload");
+out.println("------------- testing sql authenticate with good payload with roles");
 var result = ldapClient.authenticate(payload);
 out.println(JSON.stringify(result, null, 2));
 out.println("-------------");
 
 
-out.println("------------- testing ldap authenticate with bad payload");
+
+var payload = {
+    username: "Tband@company.com",
+    password: "password"
+
+};
+
+out.println("------------- testing sql authenticate with good payload no roles");
+var result = ldapClient.authenticate(payload);
+out.println(JSON.stringify(result, null, 2));
+out.println("-------------");
+
+
+out.println("------------- testing sql authenticate with bad payload");
 badPayload = {
     username: "DavidBAD",
     password: "Password$1"
@@ -48,13 +64,20 @@ out.println(JSON.stringify(result, null, 2));
 out.println("-------------");
 
 
+var payload = {
+    username: "tyler",
+    password: "password1"
+};
+
+
 out.println("------------- testing getAllGroups");
 result = ldapClient.getAllGroups();
 out.println(JSON.stringify(result, null, 2));
 out.println("-------------");
 
 out.println("------------- testing getLoginInfo");
-result = ldapClient.getLoginInfo(url);
+
+result = ldapClient.getLoginInfo(null);
 out.println(JSON.stringify(result, null, 2));
 out.println("First field is " + result.fields[0].name);
 out.println("-------------");
