@@ -1,16 +1,31 @@
-LDAPAUthProvider based on JDBC RSSBus for LDAP
+LDAPAUthProvider 
 ==============================================
 
-LDAP Authentication Service for Espresso Logic 
+LDAP Authentication Service for CA Live API Creator
 
 for testing you can create a local Node.js LDAP server
-see >npm install ldapjs
+```
+npm install ldapjs
+```
 
 ##To Install
->mvn clean install
+```
+mvn clean install
+```
 
-You will need to install a licensed copy of JDBC  RSSBus for LDAP
-http://www.rssbus.com/jdbc/ldap/
+##Java Source - create a JAR file
+```
+/src/main/java/com/somecompanyldap//LDAPService.java
+```
 
-##To Test
-Edit test.js and run startLDAPAuthServer.cmd (this sets the classpath and runs Mozilla JavaScript test.js)
+##JavaScript Resource - load as user library and as Authentication provider
+```
+/src/main/resource/LDAPAuthProvier.js
+```
+
+##See Documenation on Authentication Providers
+```
+https://sites.google.com/site/30liveapicreator/creating-apis/security/authentication/authentication-providers
+```
+
+###CA Live API Creator copyright 2016

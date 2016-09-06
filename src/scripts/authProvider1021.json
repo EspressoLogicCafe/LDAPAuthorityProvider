@@ -1,0 +1,10 @@
+{
+  "ident":1021,
+  "name":"LDAPAuthProvider",
+  "auth_type_ident":2,
+  "class_name":"com.kahuna.server.auth.JavaScriptAuthProvider",
+  "class_location":"",
+  "bootstrap_config_value":"LDAPAuthProviderCreate",
+  "param_map":"serverName=172.16.10.21,port=389,baseDN=DC%somecompany%2CDC%3Dcom,keyLifetimeMinutes=60,ldapUser=adlookup@somecompany.com,ldapPassword=somepassword",
+  "account_ident":1000
+}
