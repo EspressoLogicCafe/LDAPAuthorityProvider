@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 public class LDAPService {
 
 	
-	private static final Logger log = LogManager.getLogger(LDAPService.class);
+    private static final Logger log = LogManager.getLogger(LDAPService.class);
     private String ldapUri;
     private String ldapBaseDN;
     private String ldapUser;
@@ -57,7 +57,7 @@ public class LDAPService {
         String hostName = ldapService.getHostName();
         log.debug("Display name for "+user+" = "+displayName + ". Host name = "+hostName);
 
-        String ou = "DealMaker";
+        String ou = "SOMEOU";
         String cn = "ALL";
         log.debug(user+" isInCnOu cn="+cn+",ou="+ou+": Searching...");
         boolean inCnOu = ldapService.isUserInCnOu(user, cn, ou);
@@ -82,13 +82,13 @@ public class LDAPService {
 	}
 	
 	public String authenticateUser(String user, String password) {
-		Hashtable<String, Object> env = new Hashtable<>();
-        env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-        env.put(Context.PROVIDER_URL, ldapUri);
-        env.put(Context.SECURITY_PRINCIPAL, user);
-        env.put(Context.SECURITY_CREDENTIALS, password);
+	    Hashtable<String, Object> env = new Hashtable<>();
+            env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+            env.put(Context.PROVIDER_URL, ldapUri);
+            env.put(Context.SECURITY_PRINCIPAL, user);
+            env.put(Context.SECURITY_CREDENTIALS, password);
 
-        DirContext ctx = null;
+            DirContext ctx = null;
 
         try {
             ctx = new InitialDirContext(env);
@@ -105,16 +105,16 @@ public class LDAPService {
 	}
 
 	public String getUserDisplayName(String user) {
-		Hashtable<String, Object> env = new Hashtable<>();
-        env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-        env.put(Context.PROVIDER_URL, ldapUri);
-        env.put(Context.SECURITY_PRINCIPAL, ldapUser);
-        env.put(Context.SECURITY_CREDENTIALS, ldapPassword);
+	    Hashtable<String, Object> env = new Hashtable<>();
+            env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+            env.put(Context.PROVIDER_URL, ldapUri);
+            env.put(Context.SECURITY_PRINCIPAL, ldapUser);
+            env.put(Context.SECURITY_CREDENTIALS, ldapPassword);
 
-        String displayName = null;
-        DirContext ctx = null;
+            String displayName = null;
+            DirContext ctx = null;
 
-        try {
+          try {
             ctx = new InitialDirContext(env);
 
 	        SearchControls controls = new SearchControls();
@@ -154,14 +154,14 @@ public class LDAPService {
 	}
 
 	public boolean isUserInCnOu(String user, String cn, String ou) {
-		Hashtable<String, Object> env = new Hashtable<>();
-        env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-        env.put(Context.PROVIDER_URL, ldapUri);
-        env.put(Context.SECURITY_PRINCIPAL, ldapUser);
-        env.put(Context.SECURITY_CREDENTIALS, ldapPassword);
+	    Hashtable<String, Object> env = new Hashtable<>();
+            env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+            env.put(Context.PROVIDER_URL, ldapUri);
+            env.put(Context.SECURITY_PRINCIPAL, ldapUser);
+            env.put(Context.SECURITY_CREDENTIALS, ldapPassword);
 
-        boolean found = false;
-        DirContext ctx = null;
+            boolean found = false;
+            DirContext ctx = null;
 
         try {
             ctx = new InitialDirContext(env);
